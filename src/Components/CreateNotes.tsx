@@ -1,13 +1,12 @@
-import { useState } from "react";
-
+import { ChangeEvent, useState } from "react";
 import { Box, InputBase, Button, styled, Typography } from "@mui/material";
 import { v4 as uuid } from 'uuid';
 
-import { NoteObject } from "./modals/modals";
-import { TITLE_LIMIT, TEXT_LIMIT } from "../constants/constants;
+import { NoteObject } from "../modals/modals";
+import { TITLE_LIMIT, TEXT_LIMIT } from "../constants/constants";
 
 const Container = styled(Box)`
-    & > * {
+    & > * { 
         margin-right: 20px !important;
         margin: 20px 0;
     }
@@ -35,79 +34,74 @@ const Error = styled(Typography)`
     color: #fff;
     padding: 10px;
     width: 50%;
-`
+`;
 
-const defaultObj = {
-    id: 0, 
-    title: '',
-    text: '',
-    color: '',
-    date: (new Date().toLocaleString()).toString()
-} // Date cannot be used directly as a React Child.
+const defaultObj: NoteObject = {
+    id: "",  
+    title: "",
+    text: "",
+    color: "#F5F5F5",
+    date: new Date().toLocaleString()
+};
 
 interface ICreateNoteProps {
-    addNote: (note: NoteObject) => void
+    addNote: (note: NoteObject) => void;
 }
 
 const CreateNote: React.FC<ICreateNoteProps> = ({ addNote }) => {
-
     const [note, setNote] = useState<NoteObject>(defaultObj);
-    const [error, setError] = useState<string>('');
+    const [error, setError] = useState<string>("");
 
     const onValueChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        if(error) 
-            setError('');
-        
+        if (error) setError("");
         setNote({ ...note, [e.target.name]: e.target.value });
-    }
+    };
 
     const onCreateNote = () => {
-        if (!note.title && !note.text) {
-            setError('All fields are mandatory');
+        if (!note.title.trim() || !note.text.trim()) {
+            setError("All fields are mandatory");
             return;
         }
 
-        addNote({ ...note, id: uuid() });
+        const newNote = { ...note, id: uuid() };
+        addNote(newNote);
         setNote(defaultObj);
-    }
+    };
 
     return (
         <Container>
             <InputBase 
                 name="title" 
                 value={note.title} 
-                onChange={(e) => onValueChange(e)} 
+                onChange={onValueChange} 
                 placeholder="Title" 
-                inputProps={{
-                    maxLength: TITLE_LIMIT
-                }}
+                inputProps={{ maxLength: TITLE_LIMIT }}
             />
             <Box component="span">{note.title.length}/{TITLE_LIMIT}</Box>
+
             <InputBase 
                 name="text" 
                 value={note.text} 
-                onChange={(e) => onValueChange(e)} 
+                onChange={onValueChange} 
                 placeholder="Details"
-                inputProps={{
-                    maxLength: TEXT_LIMIT
-                }}
+                inputProps={{ maxLength: TEXT_LIMIT }}
             />
             <Box component="span">{note.text.length}/{TEXT_LIMIT}</Box>
+
             <InputBase 
                 type="color"
                 name="color"
-                defaultValue={'#F5F5F5'}
-                onChange={(e) => onValueChange(e)} 
-                placeholder="Choose color" 
+                value={note.color}
+                onChange={onValueChange} 
             />
-            <Button 
-                variant="outlined"
-                onClick={() => onCreateNote()}>
-                    Create
+
+            <Button variant="outlined" onClick={onCreateNote}>
+                Create
             </Button>
-            { error && <Error>{error}</Error> }
+
+            {error && <Error>{error}</Error>}
         </Container>
-    )
-}
+    );
+};
 
 export default CreateNote;
