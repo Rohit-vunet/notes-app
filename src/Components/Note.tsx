@@ -1,16 +1,16 @@
 import { NoteObject } from "../modals/modals";
 
-import { Card, CardContent, Box, Typography, Button, styled } from '@mui/material';
+import { Card, CardContent, Box, Typography, Button, styled } from "@mui/material";
 
 interface INoteProps {
-    note: NoteObject,
-    deleteNote: (id: number) => void
+    note: NoteObject;
+    deleteNote: (id: string) => void; 
 }
 
 const StyledCard = styled(Card)`
     width: 400px;
     margin: 20px;
-`
+`;
 
 const Wrapper = styled(Box)`
     & > button {
@@ -18,10 +18,9 @@ const Wrapper = styled(Box)`
         background: #fff; 
         margin-top: 5px;
     }
-`
+`;
 
 const Note: React.FC<INoteProps> = ({ note, deleteNote }) => {
-    
     return (
         <StyledCard style={{ backgroundColor: note.color }}>
             <CardContent>
@@ -33,7 +32,7 @@ const Note: React.FC<INoteProps> = ({ note, deleteNote }) => {
                 </Wrapper>
             </CardContent>
         </StyledCard>
-    )
-}
+    );
+};
 
 export default Note;

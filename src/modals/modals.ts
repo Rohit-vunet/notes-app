@@ -1,7 +1,8 @@
 export interface NoteObject {
-    id: number, 
-    title: string,
-    text: string,
-    color: string,
-    date: string
-}
+    id: string;
+    title: string;
+    text: string;
+    color: string;
+    date: string;
+  }
+  
