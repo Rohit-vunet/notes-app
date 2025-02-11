@@ -37,7 +37,7 @@ const Error = styled(Typography)`
 `;
 
 const defaultObj: NoteObject = {
-    id: uuid(), 
+    id: uuid(),
     title: "",
     text: "",
     color: "#F5F5F5",
@@ -62,6 +62,8 @@ const CreateNote: React.FC<ICreateNoteProps> = ({ addNote }) => {
             [name]: type === "color" ? value : value.trimStart(), 
         }));
     };
+
+    
 
     const onCreateNote = () => {
         if (!note.title.trim() || !note.text.trim()) {
